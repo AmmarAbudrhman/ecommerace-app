@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Brands;
 use App\Http\Controllers\Controller;
 use App\Models\Brands;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
@@ -14,10 +15,12 @@ class StoreController extends Controller
             'name' => 'required|string|max:255|unique:brands,name',
         ]);
 
-        $brand = new Brands();
-        $brand->name = $request->name;
-        $brand->save();
+        return DB::transaction(function () use ($request) {
+            $brand = new Brands();
+            $brand->name = $request->name;
+            $brand->save();
 
-        return $this->successResponse($brand, 'Brand created successfully', 201);
+            return $this->successResponse($brand, 'Brand created successfully', 201);
+        });
     }
 }

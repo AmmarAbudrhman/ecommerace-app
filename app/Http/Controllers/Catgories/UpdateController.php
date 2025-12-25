@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catgories;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UpdateController extends Controller
 {
@@ -21,17 +22,19 @@ class UpdateController extends Controller
             'image' => ImageHelper::getValidationRules(),
         ]);
 
-        $catgory->name = $request->name;
+        return DB::transaction(function () use ($catgory, $request) {
+            $catgory->name = $request->name;
 
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($catgory->image) {
-                ImageHelper::delete($catgory->image);
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($catgory->image) {
+                    ImageHelper::delete($catgory->image);
+                }
+                $catgory->image = ImageHelper::upload($request->file('image'), 'categories');
             }
-            $catgory->image = ImageHelper::upload($request->file('image'), 'categories');
-        }
 
-        $catgory->save();
-        return $this->successResponse($catgory, 'Category updated successfully');
+            $catgory->save();
+            return $this->successResponse($catgory, 'Category updated successfully');
+        });
     }
 }

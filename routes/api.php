@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Brands;
 use App\Http\Controllers\Catgories;
 use App\Http\Controllers\Locations;
+use App\Http\Controllers\Products;
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -36,6 +37,14 @@ Route::prefix('locations')->group(function () {
     Route::post('/', Locations\StoreController::class);
     Route::put('/{id}', Locations\UpdateController::class);
     Route::delete('/{id}', Locations\DestroyController::class);
+});
+
+Route::prefix('products')->group(function () {
+    Route::get('/', Products\IndexController::class);
+    Route::get('/{id}', Products\ShowController::class);
+    Route::post('/', Products\StoreController::class);
+    Route::put('/{id}', Products\UpdateController::class);
+    Route::delete('/{id}', Products\DestroyController::class);
 });
 
 

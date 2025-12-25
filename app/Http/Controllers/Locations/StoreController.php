@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Locations;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
@@ -18,14 +19,16 @@ class StoreController extends Controller
             'area' => 'required|string|max:255',
         ]);
 
-        // Create a new location
-        $location = new Location();
-        $location->user_id = $validatedData['user_id'];
-        $location->street = $validatedData['street'];
-        $location->building_number = $validatedData['building_number'];
-        $location->area = $validatedData['area'];
-        $location->save();
+        return DB::transaction(function () use ($request, $validatedData) {
+            // Create a new location
+            $location = new Location();
+            $location->user_id = $validatedData['user_id'];
+            $location->street = $validatedData['street'];
+            $location->building_number = $validatedData['building_number'];
+            $location->area = $validatedData['area'];
+            $location->save();
 
-        return $this->successResponse($location, 'Location created successfully', 201);
+            return $this->successResponse($location, 'Location created successfully', 201);
+        });
     }
 }
