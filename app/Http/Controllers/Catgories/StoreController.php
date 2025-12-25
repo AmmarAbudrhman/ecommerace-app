@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catgories;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
@@ -16,14 +17,16 @@ class StoreController extends Controller
             'image' => ImageHelper::getValidationRules(),
         ]);
 
-        $catgory = new Catgories();
-        $catgory->name = $request->name;
+        return DB::transaction(function () use ($request) {
+            $catgory = new Catgories();
+            $catgory->name = $request->name;
 
-        if ($request->hasFile('image')) {
-            $catgory->image = ImageHelper::upload($request->file('image'), 'categories');
-        }
+            if ($request->hasFile('image')) {
+                $catgory->image = ImageHelper::upload($request->file('image'), 'categories');
+            }
 
-        $catgory->save();
-        return $this->successResponse($catgory, 'Category created successfully', 201);
+            $catgory->save();
+            return $this->successResponse($catgory, 'Category created successfully', 201);
+        });
     }
 }

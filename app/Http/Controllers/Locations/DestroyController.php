@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Locations;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DestroyController extends Controller
 {
@@ -16,8 +17,9 @@ class DestroyController extends Controller
             return $this->errorResponse('Location not found', 404);
         }
 
-        $location->delete();
-
-        return $this->successResponse(null, 'Location deleted successfully');
+        return DB::transaction(function () use ($location) {
+            $location->delete();
+            return $this->successResponse(null, 'Location deleted successfully');
+        });
     }
 }
