@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BrandsController;
-use App\Http\Controllers\CatgoriesController;
+use App\Http\Controllers\Brands;
+use App\Http\Controllers\Catgories;
+use App\Http\Controllers\Locations;
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -14,20 +15,27 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
 
 });
 
-Route::controller(BrandsController::class)->group(function () {
-    Route::get('/brands', 'index');
-    Route::get('/brands/{id}', 'show');
-    Route::post('/brands', 'store');
-    Route::put('/brands/{id}', 'update_brand');
-    Route::delete('/brands/{id}', 'destroy');
+Route::prefix('brands')->group(function () {
+    Route::get('/', Brands\IndexController::class);
+    Route::get('/{id}', Brands\ShowController::class);
+    Route::post('/', Brands\StoreController::class);
+    Route::put('/{id}', Brands\UpdateController::class);
+    Route::delete('/{id}', Brands\DestroyController::class);
 });
 
-Route::controller(CatgoriesController::class)->group(function () {
-    Route::get('/catgories', 'index');
-    Route::get('/catgories/{id}', 'show');
-    Route::post('/catgories', 'store');
-    Route::put('/catgories/{id}', 'update_catgory');
-    Route::delete('/catgories/{id}', 'destroy');
+Route::prefix('catgories')->group(function () {
+    Route::get('/', Catgories\IndexController::class);
+    Route::get('/{id}', Catgories\ShowController::class);
+    Route::post('/', Catgories\StoreController::class);
+    Route::put('/{id}', Catgories\UpdateController::class);
+    Route::delete('/{id}', Catgories\DestroyController::class);
+});
+
+Route::prefix('locations')->group(function () {
+    Route::get('/', Locations\IndexController::class);
+    Route::post('/', Locations\StoreController::class);
+    Route::put('/{id}', Locations\UpdateController::class);
+    Route::delete('/{id}', Locations\DestroyController::class);
 });
 
 
