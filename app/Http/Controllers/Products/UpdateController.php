@@ -7,6 +7,7 @@ use App\Models\Products;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\ProductResource;
 
 class UpdateController extends Controller
 {
@@ -51,7 +52,7 @@ class UpdateController extends Controller
 
             $product->save();
 
-            return $this->successResponse($product, 'Product updated successfully');
+            return $this->successResponse(new ProductResource($product), 'Product updated successfully');
         });
     }
 }

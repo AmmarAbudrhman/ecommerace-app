@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brands;
 use Illuminate\Http\Request;
 use App\Helpers\PaginationHelper;
+use App\Http\Resources\BrandResource;
 
 class IndexController extends Controller
 {
@@ -18,6 +19,6 @@ class IndexController extends Controller
         }
 
         $brands = $query->paginate(10);
-        return $this->successResponse(PaginationHelper::format($brands));
+        return $this->successResponse(PaginationHelper::format($brands, BrandResource::class));
     }
 }

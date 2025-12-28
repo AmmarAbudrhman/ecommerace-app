@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catgories;
 use Illuminate\Http\Request;
 use App\Helpers\PaginationHelper;
+use App\Http\Resources\CategoryResource;
 
 class IndexController extends Controller
 {
@@ -19,6 +20,6 @@ class IndexController extends Controller
 
         $catgories = $query->paginate(10);
 
-        return $this->successResponse(PaginationHelper::format($catgories));
+        return $this->successResponse(PaginationHelper::format($catgories, CategoryResource::class));
     }
 }

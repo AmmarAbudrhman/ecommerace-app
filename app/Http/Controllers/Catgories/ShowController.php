@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Catgories;
 use App\Http\Controllers\Controller;
 use App\Models\Catgories;
 use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResource;
 
 class ShowController extends Controller
 {
@@ -16,6 +17,6 @@ class ShowController extends Controller
             return $this->errorResponse('Category not found', 404);
         }
 
-        return $this->successResponse($catgory);
+        return $this->successResponse(new CategoryResource($catgory));
     }
 }

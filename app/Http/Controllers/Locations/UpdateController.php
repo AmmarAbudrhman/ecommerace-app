@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\LocationResource;
 
 class UpdateController extends Controller
 {
@@ -31,7 +32,7 @@ class UpdateController extends Controller
             $location->area = $request->area;
             $location->save();
 
-            return $this->successResponse($location, 'Location updated successfully');
+            return $this->successResponse(new LocationResource($location), 'Location updated successfully');
         });
     }
 }

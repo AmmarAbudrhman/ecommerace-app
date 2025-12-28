@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brands;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\BrandResource;
 
 class StoreController extends Controller
 {
@@ -20,7 +21,7 @@ class StoreController extends Controller
             $brand->name = $request->name;
             $brand->save();
 
-            return $this->successResponse($brand, 'Brand created successfully', 201);
+            return $this->successResponse(new BrandResource($brand), 'Brand created successfully', 201);
         });
     }
 }

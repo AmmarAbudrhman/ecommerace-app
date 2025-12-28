@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Helpers\PaginationHelper;
+use App\Http\Resources\LocationResource;
 
 class IndexController extends Controller
 {
@@ -27,6 +28,6 @@ class IndexController extends Controller
         }
 
         $locations = $query->paginate(10);
-        return $this->successResponse(PaginationHelper::format($locations));
+        return $this->successResponse(PaginationHelper::format($locations, LocationResource::class));
     }
 }
