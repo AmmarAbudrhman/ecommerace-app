@@ -7,6 +7,7 @@ use App\Models\Catgories;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\CategoryResource;
 
 class StoreController extends Controller
 {
@@ -26,7 +27,7 @@ class StoreController extends Controller
             }
 
             $catgory->save();
-            return $this->successResponse($catgory, 'Category created successfully', 201);
+            return $this->successResponse(new CategoryResource($catgory), 'Category created successfully', 201);
         });
     }
 }

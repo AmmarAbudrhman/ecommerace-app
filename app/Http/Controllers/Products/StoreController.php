@@ -7,6 +7,7 @@ use App\Models\Products;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\ProductResource;
 
 class StoreController extends Controller
 {
@@ -43,7 +44,7 @@ class StoreController extends Controller
 
             $product->save();
 
-            return $this->successResponse($product, 'Product created successfully', 201);
+            return $this->successResponse(new ProductResource($product), 'Product created successfully', 201);
         });
     }
 }

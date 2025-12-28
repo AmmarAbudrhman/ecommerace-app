@@ -7,6 +7,7 @@ use App\Models\Catgories;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\CategoryResource;
 
 class UpdateController extends Controller
 {
@@ -34,7 +35,7 @@ class UpdateController extends Controller
             }
 
             $catgory->save();
-            return $this->successResponse($catgory, 'Category updated successfully');
+            return $this->successResponse(new CategoryResource($catgory), 'Category updated successfully');
         });
     }
 }

@@ -34,6 +34,7 @@ Route::prefix('catgories')->group(function () {
 
 Route::prefix('locations')->group(function () {
     Route::get('/', Locations\IndexController::class);
+        Route::get('/{id}', Catgories\ShowController::class);
     Route::post('/', Locations\StoreController::class);
     Route::put('/{id}', Locations\UpdateController::class);
     Route::delete('/{id}', Locations\DestroyController::class);
@@ -48,6 +49,16 @@ Route::prefix('products')->group(function () {
 });
 
 
+
+use App\Http\Controllers\Orders;
+
+Route::prefix('orders')->group(function () {
+    Route::get('/', Orders\IndexController::class);
+    Route::get('/{id}', Orders\ShowController::class);
+    Route::post('/', Orders\StoreController::class);
+    Route::put('/{id}', Orders\UpdateController::class);
+    Route::delete('/{id}', Orders\DestroyController::class);
+});
 
 Route::get('/user', function (Request $request) {
     return $request->user();

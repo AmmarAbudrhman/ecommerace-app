@@ -6,10 +6,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaginationHelper
 {
-    public static function format(LengthAwarePaginator $paginator)
+    public static function format(LengthAwarePaginator $paginator, $resourceClass = null)
     {
+        $items = $paginator->items();
+
+        if ($resourceClass) {
+            $items = $resourceClass::collection($items);
+        }
+
         return [
-            'items' => $paginator->items(),
+            'items' => $items,
             'pagination' => [
                 'total' => $paginator->total(),
                 'count' => $paginator->count(),

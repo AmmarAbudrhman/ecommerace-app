@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Helpers\PaginationHelper;
+use App\Http\Resources\ProductResource;
 
 class IndexController extends Controller
 {
@@ -36,6 +37,6 @@ class IndexController extends Controller
         }
 
         $products = $query->paginate(10);
-        return $this->successResponse(PaginationHelper::format($products));
+        return $this->successResponse(PaginationHelper::format($products, ProductResource::class));
     }
 }

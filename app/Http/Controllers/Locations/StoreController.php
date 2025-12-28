@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\LocationResource;
 
 class StoreController extends Controller
 {
@@ -28,7 +29,7 @@ class StoreController extends Controller
             $location->area = $validatedData['area'];
             $location->save();
 
-            return $this->successResponse($location, 'Location created successfully', 201);
+            return $this->successResponse(new LocationResource($location), 'Location created successfully', 201);
         });
     }
 }

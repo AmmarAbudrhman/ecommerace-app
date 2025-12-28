@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 
 class ShowController extends Controller
 {
@@ -16,6 +17,6 @@ class ShowController extends Controller
             return $this->errorResponse('Product not found', 404);
         }
 
-        return $this->successResponse($product);
+        return $this->successResponse(new ProductResource($product));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Brands;
 use App\Http\Controllers\Controller;
 use App\Models\Brands;
 use Illuminate\Http\Request;
+use App\Http\Resources\BrandResource;
 
 class ShowController extends Controller
 {
@@ -16,6 +17,6 @@ class ShowController extends Controller
             return $this->errorResponse('Brand not found', 404);
         }
 
-        return $this->successResponse($brand);
+        return $this->successResponse(new BrandResource($brand));
     }
 }
